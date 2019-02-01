@@ -1,0 +1,40 @@
+<?php
+/* Smarty version 3.1.34-dev-7, created on 2019-01-29 18:16:04
+  from 'C:\UwAmp\pantallas\videos\templates\index.tpl' */
+
+/* @var Smarty_Internal_Template $_smarty_tpl */
+if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
+  'version' => '3.1.34-dev-7',
+  'unifunc' => 'content_5c508a54907591_06751270',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    'edd88c9b14f9331743d130704acde5ab81071fd6' => 
+    array (
+      0 => 'C:\\UwAmp\\pantallas\\videos\\templates\\index.tpl',
+      1 => 1548781307,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+),false)) {
+function content_5c508a54907591_06751270 (Smarty_Internal_Template $_smarty_tpl) {
+?><!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>DAW TWO FLIX</title>
+    </head>
+    <body>
+        <div id="formulario-login">
+            <form action="validarUsuario.php">
+                <input type="text" name="dni" id="dni" placeholder="Dni" />
+                <input type="password" name="clave" id="clave" placeholder="Contraseña" />
+                <input type="submit" name="enviar" id="enviar" />
+            </form>
+        </div>
+    </body>
+</html><?php }
+}
