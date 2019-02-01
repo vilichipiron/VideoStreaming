@@ -18,5 +18,9 @@
             }
             return $validado;
         }
+        
+        public static function cmp($a, $b) {
+            return strcmp($a->titulo, $b->titulo);
+        }
     }
 ?>

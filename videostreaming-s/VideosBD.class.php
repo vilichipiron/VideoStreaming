@@ -88,7 +88,7 @@ class Videosbd {
         }  
     }
     
-    /*Saca un array de objetos Video que pertenecen al usuario*/
+    /*Saca un array de objetos Video que pertenecen al usuario ordenados alfabeticamente*/
     public static function getVideosAlfabeticamente($codigosPerfil) {
         $canal = "";
         self::conectar($canal);
@@ -97,7 +97,7 @@ class Videosbd {
         $videos = [];
         //Recorre los codigos de perfil y muestra las peliculas que le correspondan a cada uno
         foreach ($codigosPerfil as $codPerfil) {
-            $consulta = $canal->prepare("select codigo, titulo, cartel, descargable, sinopsis, video from videos where codigo_perfil = ? order by titulo");
+            $consulta = $canal->prepare("select codigo, titulo, cartel, descargable, sinopsis, video from videos where codigo_perfil = ?");
             
             if (!$consulta) {
                 return null;
@@ -118,6 +118,8 @@ class Videosbd {
         }
         //Cierra el canal
         $canal->close();
+        //Ordena el array alfabeticamente por titulo de objeto video
+        usort($videos, array('Funciones', 'cmp'));
         //Devuelve el array de objetos Video
         return $videos;
     }
@@ -125,6 +127,8 @@ class Videosbd {
     /*Saca un array de claves, cada una con otro array de objetos video
     SELECT v.titulo from videos v, perfil_usuario p, asociado a where v.codigo_perfil = p.codigo_perfil and a.codigo_video = v.codigo and a.codigo_tematica = "T1" and p.dni = "11111111A"
     */ 
-    functio
+    public static function getVideosCategoria($codigosPerfil) {
+        
+    }
 }
 ?>
