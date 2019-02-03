@@ -15,6 +15,9 @@ $pantalla = new Pantalla();
 
 $parametros = array("videos"=>$videos);
 
+$videosCategoria = Videosbd::getVideosTematica($usuario->codigosPerfiles);
+var_dump($videosCategoria);
+
 $pantalla->mostrar("alfabeticamente.tpl", $parametros);
 
 ?>
