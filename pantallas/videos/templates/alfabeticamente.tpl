@@ -9,7 +9,7 @@
         <header>
             <h3>Catalogo de videos</h3>
             <div id="filtrar">
-                <h5>Ordenar</h5>
+                <h2>Ordenar</h2>
                 <a href="alfabeticamente.php">Alfabeticamente</a>
                 <a href="categoria.php">Por categoria</a>
             </div>

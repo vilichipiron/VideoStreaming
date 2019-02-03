@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.34-dev-7, created on 2019-01-31 09:37:44
+/* Smarty version 3.1.34-dev-7, created on 2019-02-01 17:18:49
   from 'C:\UwAmp\pantallas\videos\templates\alfabeticamente.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.34-dev-7',
-  'unifunc' => 'content_5c52b3d8654392_02182046',
+  'unifunc' => 'content_5c547169e52992_69350089',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90e0d0d2e594d322b5fb1daff3eca3ac50f5dac4' => 
     array (
       0 => 'C:\\UwAmp\\pantallas\\videos\\templates\\alfabeticamente.tpl',
-      1 => 1548922770,
+      1 => 1549037928,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5c52b3d8654392_02182046 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5c547169e52992_69350089 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html>
     <head>
@@ -32,7 +32,7 @@ function content_5c52b3d8654392_02182046 (Smarty_Internal_Template $_smarty_tpl)
         <header>
             <h3>Catalogo de videos</h3>
             <div id="filtrar">
-                <h5>Ordenar</h5>
+                <h2>Ordenar</h2>
                 <a href="alfabeticamente.php">Alfabeticamente</a>
                 <a href="categoria.php">Por categoria</a>
             </div>
