@@ -90,6 +90,7 @@ class Videosbd {
     
     /*Saca un array de objetos Video que pertenecen al usuario ordenados alfabeticamente*/
     public static function getVideosAlfabeticamente($codigosPerfil) {
+        //Se conecta a la BBDD
         $canal = "";
         self::conectar($canal);
         
@@ -126,9 +127,72 @@ class Videosbd {
     
     //Devuelve un array en el que cada clave es la tematica y su valor es un array de objetos Video
     public static function getVideosTematica($codigosPerfil) {
+        require_once("../../www/videostreaming/clases/Video.class.php");                
+        //Se conecta a la BBDD
         $canal = "";
         self::conectar($canal);
         
+        $tematicas = self::getTematicas($canal);   
+                
+        /*Este array almacena los videos ordenados por tematica. La clave es la 
+        descripcion de cada tematica y el valor es un array con los videos que sean de esa tematica*/
+        $videosTematica = [];
+        
+        //Prepara la consulta
+        $consulta = $canal->prepare("SELECT v.codigo, v.titulo, v.cartel, v.descargable, v.sinopsis, v.video FROM videos v, asociado a WHERE v.codigo = a.codigo_video and v.codigo_perfil = ? and a.codigo_tematica = ?");
+        
+        if (!$consulta) {
+            return null;
+            exit;
+        }
+        
+        $consulta->bind_param("ss", $pCodPerfil, $pCodTematica);
+        $consulta->bind_result($ccodigo, $ctitulo, $ccartel, $cdescargable, $csinopsis, $cvideo);
+        $consulta->store_result();
+        //Recorre todas las tematicas
+        foreach ($tematicas as $codigoTematica => $descripcion) {
+            echo $descripcion."-----<br>";
+            //Por cada tematica recorre todos los perfiles del usuario
+            
+            foreach ($codigosPerfil as $codigoPerfil) {
+                
+                //Prepara las variables para la consulta y la ejecuta
+                $pCodPerfil = $codigoPerfil;
+                $pCodTematica = $codigoTematica;
+
+                $consulta->execute();
+                
+
+                //Almacena en una variable si ha habido resultado o no
+                if ($consulta->num_rows == 0) {
+                    $resultado = false;
+                    continue;
+                } else {
+                    $resultado = true;
+                }
+                
+                //Este array almacena los videos de una tematica en concreto
+                $videosTematicaTemp = [];
+                    
+                while ($consulta->fetch()) {
+                    echo $ctitulo."<br>";
+                    $video = new Video($ccodigo, $ctitulo, $ccartel, $cdescargable, $codigoPerfil, $csinopsis, $cvideo);
+                    array_push($videosTematicaTemp, $video);
+                }
+            }
+            
+            /*Una vez tiene el array con una tematica en concreto lo mete en el array definitivo. 
+            La clave es la descripcion de la tematica y el valor es el array con la tematica en concreto*/
+            if ($resultado) {
+                $videosTematica[$descripcion] = $videosTematicaTemp;
+            } 
+        }
+        var_dump($videosTematica);
+        return $videosTematica;
+    }
+    
+    //Devuelve todas las tematicas existentes.
+    public static function getTematicas(&$canal) {
         //Recoge el nombre y descripcion de cada tematica
         $consulta = $canal->prepare("SELECT codigo, descripcion FROM tematica");
         
@@ -147,55 +211,15 @@ class Videosbd {
             exit;
         }
         
-        $videos = [];
+        $tematicas = [];
         
         while ($consulta->fetch()) { 
-            $videosPorTematica = [];
-            //Devuelve un array de videos que pertenezcan a dicha tematica
-            $videosPorTematica = self::videosDeTematica($ccodigo, $codigosPerfil, $canal);
-            //Si lo que ha devuelto no esta vacio, lo añade al array final
-            if (!empty($videosPorTematica)) {
-                $videos[$cdescripcion] = $videosPorTematica;
-            }  
+            /*Mete en un array las tematicas. La clave es el codigo
+            de la tematica y el valor la descripcion. */
+            $tematicas[$ccodigo] = $cdescripcion;
         }
         
-        //Cierra el canal
-        $canal->close();
-        
-        return $videos;
-    }
-    
-    //Devuelve un array con los objetos video de esa tematica que pueda ver el usuario
-    public static function videosDeTematica($codTematica, $codigosPerfil, &$canal) {
-        //Recorre el array de codigos
-        foreach ($codigosPerfil as $codigoPerfil) {
-            $consulta = $canal->prepare("SELECT v.codigo, v.titulo, v.cartel, v.descargable, v.sinopsis, v.video FROM videos v, asociado a WHERE v.codigo = a.codigo_video and v.codigo_perfil = ? and a.codigo_tematica = ?");
-
-            if (!$consulta) {
-                return null;
-                exit;
-            }
-
-            $consulta->bind_param("ss", $pCodPerfil, $pCodTematica);
-            $pCodPerfil = $codigoPerfil;
-            $pCodTematica = $codTematica;
-            $consulta->execute();
-            $consulta->bind_result($ccodigo, $ctitulo, $ccartel, $cdescargable, $csinopsis, $cvideo);
-            $consulta->store_result();
-            
-            //Crea el objeto video y lo mete en el array
-            $videosTematica = [];
-            require_once("../../www/videostreaming/clases/Video.class.php");
-            while ($consulta->fetch()) {
-                $video = new Video($ccodigo, $ctitulo, $ccartel, $cdescargable, $codigoPerfil, $csinopsis, $cvideo);
-                array_push($videosTematica, $video);
-            }
-        }
-        if (!empty($videosTematica)) {
-            return $videosTematica;
-        } else {
-            return null;
-        }
+        return $tematicas;
     }
 }
 ?>
