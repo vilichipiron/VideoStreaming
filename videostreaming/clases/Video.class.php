@@ -15,7 +15,7 @@
             $this->descargable = $descargable;
             $this->codigoPerfil = $codigoPerfil;
             $this->sinopsis = $sinopsis;
-            $this->video = $video;
+            $this->video = "../../videos/".$video;
         }
         
         public function __get($atributo) {
