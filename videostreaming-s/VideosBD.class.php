@@ -139,7 +139,7 @@ class Videosbd {
         $videosTematica = [];
         
         //Prepara la consulta
-        $consulta = $canal->prepare("SELECT v.codigo, v.titulo, v.cartel, v.descargable, v.sinopsis, v.video FROM videos v, asociado a WHERE v.codigo = a.codigo_video and v.codigo_perfil = ? and a.codigo_tematica = ?");
+        $consulta = $canal->prepare("SELECT v.codigo, v.titulo, v.cartel, v.descargable, v.sinopsis, v.video FROM videos v, asociado a WHERE v.codigo = a.codigo_video and v.codigo_perfil = ? and a.codigo_tematica = ? order by v.titulo");
         
         if (!$consulta) {
             return null;
@@ -187,7 +187,7 @@ class Videosbd {
                 $videosTematica[$descripcion] = $videosTematicaTemp;
             } 
         }
-        var_dump($videosTematica);
+        //var_dump($videosTematica);
         return $videosTematica;
     }
     
