@@ -1,5 +1,5 @@
 <?php
-//Es la clase que se encarga de presentar los videos de cada usuario ordenados alfabeticamente
+//Es la clase que se encarga de presentar los videos de cada usuario ordenados por tematica
 include("../../seguridad/videostreaming-s/inicioPagina.php");
 require_once("../../seguridad/videostreaming-s/Videosbd.class.php");
 require_once("Pantalla.class.php");
@@ -8,13 +8,15 @@ require_once("Pantalla.class.php");
 $usuario = unserialize($_SESSION['usuario']);
 
 //Obtiene un array de los videos que tiene el usuario
-$videosAlfabeticamente = Videosbd::getVideosAlfabeticamente($usuario->codigosPerfiles);
+$videosCategoria = Videosbd::getVideosTematica($usuario->codigosPerfiles);
 
 //Crea y muestra la pantalla con los parametros
 $pantalla = new Pantalla();
 
-$parametros = array("nombre"=>$usuario->nombre, "videos"=>$videosAlfabeticamente);
+$parametros = array("nombre"=>$usuario->nombre, "videos"=>$videosCategoria);
 
-$pantalla->mostrar("alfabeticamente.tpl", $parametros);
+$pantalla->mostrar("categoria.tpl", $parametros);
+
+var_dump($videosCategoria);
 
 ?>
