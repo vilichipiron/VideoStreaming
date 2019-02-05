@@ -1,11 +1,11 @@
 <?php
 require_once("../../seguridad/videostreaming-s/VideoStream.class.php");
 require_once("../../seguridad/videostreaming-s/Funciones.class.php");
+include("../../seguridad/videostreaming-s/inicioPagina.php");
 
-Funciones::inicioSesion();
+//Recoge la ruta del video que se esta reproduciendo
+$rutaVideo = $_SESSION['rutaVideo'];
 
-$ruta = $_SESSION['ruta'];
-
-$stream = new VideoStream($ruta);
+$stream = new VideoStream($rutaVideo);
 $stream->start();
 ?>

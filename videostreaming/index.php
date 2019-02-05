@@ -5,6 +5,9 @@
     if (isset($_GET['mensaje'])) {
         $mensaje = trim(strip_tags($_GET['mensaje']));
     }
+
+    /*CONFIGURACION PANTALLA SMARTY*/
+
     //Crea la pantalla inicial
     $pantalla = new Pantalla();
     //Le pasa los parametros

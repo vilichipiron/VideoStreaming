@@ -10,7 +10,7 @@ $usuario = unserialize($_SESSION['usuario']);
 //Obtiene un array de los videos que tiene el usuario
 $videosCategoria = Videosbd::getVideosTematica($usuario->codigosPerfiles);
 
-//Crea y muestra la pantalla con los parametros
+/*CONFIGURACION PANTALLA SMARTY*/
 $pantalla = new Pantalla();
 
 $parametros = array("nombre"=>$usuario->nombre, "videos"=>$videosCategoria);
