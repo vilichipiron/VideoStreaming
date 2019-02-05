@@ -33,6 +33,9 @@
     </script>
     <body>
         <header>
+            <div id="cerrar-sesion">
+                <a href="cerrarSesion.php">Cerrar sesión</a>
+            </div>
             <h1>NerdFlix</h1>
             <h2>Bienvenido, {$nombre}</h2>
             <div id="filtrar">
@@ -40,29 +43,17 @@
                 <a href="alfabeticamente.php">Alfabeticamente</a>
                 <a href="categoria.php">Por categoria</a>
             </div>
-            <div id="cerrar-sesion">
-                <a href="cerrarSesion.php">Cerrar sesión</a>
-            </div>
         </header>
         <main>
             <div id="peliculas">
                 {foreach from=$videos item=video}
                 <div class="pelicula">
-                    <form action="visualizar.php" method="post">
+                    <form action="verInfoPelicula.php" method="post">
                         <!--Datos de pelicula-->
                         <h3 class="titulo">{$video->titulo}</h3>
                         <input type="image" class="cartel" src="{$video->cartel}" alt="{$video->titulo}" class="empezar-stream" />
-                        {if $video->descargable eq "S"}
-                            <form action="descargar.php" method="post">
-                                <input type="hidden" name="ruta" value="{$video->video}" />
-                                <input type="hidden" name="titulo" value="{$video->titulo}" />
-                                <button class="descargar" name="descargar" class="descargar-video">Descargar</button>
-                            </form>
-                        {/if}
-                        <p class="sinopsis">{$video->sinopsis}</p>
-                        <input type="hidden" name="ruta" value="{$video->video}" />
+                        <input type="hidden" name="codigo" value="{$video->codigo}" />
                     </form>
-                    
                 </div>
                 {/foreach}
             </div>

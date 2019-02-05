@@ -5,6 +5,9 @@
     <title>Nerdflix</title>
 </head>
 <body>
+    <div id="cerrar-sesion">
+        <a href="cerrarSesion.php">Cerrar sesión</a>
+    </div>
     <div class="video-streaming">
         <iframe src="reproductor.php" width="600" height="400"></iframe>
     </div>
