@@ -36,7 +36,7 @@
             <h1>NerdFlix</h1>
             <h2>Bienvenido, {$nombre}</h2>
             <div id="filtrar">
-                <h2>Ordenado alfabeticamente</h2>
+                <h2>Ordenado por categoria</h2>
                 <a href="alfabeticamente.php">Alfabeticamente</a>
                 <a href="categoria.php">Por categoria</a>
             </div>
@@ -45,26 +45,7 @@
             </div>
         </header>
         <main>
-            <div id="peliculas">
-                {foreach from=$videos item=video}
-                <div class="pelicula">
-                    <form action="EmpezarStream.php" method="post">
-                        <!--Datos de pelicula-->
-                        <h3 class="titulo">{$video->titulo}</h3>
-                        <input type="image" class="cartel" src="{$video->cartel}" alt="{$video->titulo}" class="empezar-stream" />
-                        <p class="sinopsis">{$video->sinopsis}</p>
-                        <input type="hidden" name="ruta" value="{$video->video}" />
-                    </form>
-                    {if $video->descargable eq "S"}
-                    <form action="descargar.php" method="post">
-                        <input type="hidden" name="ruta" value="{$video->video}" />
-                        <input type="hidden" name="titulo" value="{$video->titulo}" />
-                        <button class="descargar" name="descargar" class="descargar-video">Descargar</button>
-                    </form>
-                    {/if}
-                </div>
-                {/foreach}
-            </div>
+          
         </main>
         <footer>
             

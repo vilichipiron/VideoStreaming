@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>DAW TWO FLIX</title>
+        <title>NerdFlix</title>
         <script>
             function muestraMensaje(mensaje) {
                 if (mensaje != "") {

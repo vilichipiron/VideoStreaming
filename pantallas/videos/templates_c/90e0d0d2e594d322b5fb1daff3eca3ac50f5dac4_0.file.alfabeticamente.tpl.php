@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.34-dev-7, created on 2019-02-04 22:39:51
+/* Smarty version 3.1.34-dev-7, created on 2019-02-05 13:27:05
   from 'C:\UwAmp\pantallas\videos\templates\alfabeticamente.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.34-dev-7',
-  'unifunc' => 'content_5c58b1275931a5_33990935',
+  'unifunc' => 'content_5c5981199bc599_40559835',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90e0d0d2e594d322b5fb1daff3eca3ac50f5dac4' => 
     array (
       0 => 'C:\\UwAmp\\pantallas\\videos\\templates\\alfabeticamente.tpl',
-      1 => 1549316281,
+      1 => 1549369617,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5c58b1275931a5_33990935 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5c5981199bc599_40559835 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html>
     <head>
@@ -58,9 +58,11 @@ function content_5c58b1275931a5_33990935 (Smarty_Internal_Template $_smarty_tpl)
 >
     <body>
         <header>
-            <h3>Catalogo de videos</h3>
+            <h1>NerdFlix</h1>
+            <h2>Bienvenido, <?php echo $_smarty_tpl->tpl_vars['nombre']->value;?>
+</h2>
             <div id="filtrar">
-                <h2>Ordenar</h2>
+                <h2>Ordenado alfabeticamente</h2>
                 <a href="alfabeticamente.php">Alfabeticamente</a>
                 <a href="categoria.php">Por categoria</a>
             </div>
@@ -89,13 +91,13 @@ foreach ($_from as $_smarty_tpl->tpl_vars['video']->value) {
 " />
                     </form>
                     <?php if ($_smarty_tpl->tpl_vars['video']->value->descargable == "S") {?>
-                        <form action="descargar.php" method="post">
-                            <input type="hidden" name="ruta" value="<?php echo $_smarty_tpl->tpl_vars['video']->value->video;?>
+                    <form action="descargar.php" method="post">
+                        <input type="hidden" name="ruta" value="<?php echo $_smarty_tpl->tpl_vars['video']->value->video;?>
 " />
-                            <input type="hidden" name="titulo" value="<?php echo $_smarty_tpl->tpl_vars['video']->value->titulo;?>
+                        <input type="hidden" name="titulo" value="<?php echo $_smarty_tpl->tpl_vars['video']->value->titulo;?>
 " />
-                            <button class="descargar" name="descargar" class="descargar-video">Descargar</button>
-                        </form>
+                        <button class="descargar" name="descargar" class="descargar-video">Descargar</button>
+                    </form>
                     <?php }?>
                 </div>
                 <?php

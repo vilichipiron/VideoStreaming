@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Streaming</title>
+    <title>NerdFlix</title>
 </head>
 <body>
     <div id="video-streaming">
