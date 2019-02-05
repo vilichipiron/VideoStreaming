@@ -147,35 +147,31 @@ class Videosbd {
         }
         
         $consulta->bind_param("ss", $pCodPerfil, $pCodTematica);
-        $consulta->bind_result($ccodigo, $ctitulo, $ccartel, $cdescargable, $csinopsis, $cvideo);
-        $consulta->store_result();
+        
         //Recorre todas las tematicas
         foreach ($tematicas as $codigoTematica => $descripcion) {
-            echo $descripcion."-----<br>";
+            $encontrado = false;
             //Por cada tematica recorre todos los perfiles del usuario
+            $videosTematicaTemp = [];
             
             foreach ($codigosPerfil as $codigoPerfil) {
-                
                 //Prepara las variables para la consulta y la ejecuta
                 $pCodPerfil = $codigoPerfil;
                 $pCodTematica = $codigoTematica;
 
                 $consulta->execute();
-                
+                $consulta->bind_result($ccodigo, $ctitulo, $ccartel, $cdescargable, $csinopsis, $cvideo);
+                $consulta->store_result();        
 
                 //Almacena en una variable si ha habido resultado o no
                 if ($consulta->num_rows == 0) {
-                    $resultado = false;
-                    continue;
+                    continue; //Sale de esta iteracion.
                 } else {
-                    $resultado = true;
+                    $encontrado = true;
                 }
                 
                 //Este array almacena los videos de una tematica en concreto
-                $videosTematicaTemp = [];
-                    
                 while ($consulta->fetch()) {
-                    echo $ctitulo."<br>";
                     $video = new Video($ccodigo, $ctitulo, $ccartel, $cdescargable, $codigoPerfil, $csinopsis, $cvideo);
                     array_push($videosTematicaTemp, $video);
                 }
@@ -183,11 +179,10 @@ class Videosbd {
             
             /*Una vez tiene el array con una tematica en concreto lo mete en el array definitivo. 
             La clave es la descripcion de la tematica y el valor es el array con la tematica en concreto*/
-            if ($resultado) {
+            if ($encontrado) {
                 $videosTematica[$descripcion] = $videosTematicaTemp;
-            } 
+            }
         }
-        //var_dump($videosTematica);
         return $videosTematica;
     }
     
@@ -220,6 +215,28 @@ class Videosbd {
         }
         
         return $tematicas;
+    }
+    
+    //Inserta en la tabla visionado la pelicula
+    public static function insertVisionada($dni, $codigoVideo) {
+        //Se conecta a la BBDD
+        $canal = "";
+        self::conectar($canal);
+        
+        //Ejecuta la consulta
+        $sql = "INSERT into VISIONADO (dni, codigo_video, fecha) values (?,?,NOW())";
+        $consulta = $canal->prepare($sql);
+        $consulta->bind_param("ss", $cdni, $ccodigo_video);
+        $cdni = $dni;
+        $ccodigo_video = $codigoVideo;
+        $consulta->execute();
+        
+        //Devuelve si se ha insertado la fila correctamente. 
+        if ($consulta->affected_rows == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 ?>
