@@ -28,8 +28,7 @@ class Videosbd {
             exit;
         }
         
-        $consulta->bind_param("s", $pdni);
-        $pdni = $dni;
+        $consulta->bind_param("s", $dni);
         $consulta->execute();
         $consulta->bind_result($cclave, $cnombre);
         $consulta->store_result();
@@ -55,8 +54,7 @@ class Videosbd {
                 return null;
                 exit;
             }
-            $consulta->bind_param("s", $pdni);
-            $pdni = $dni;
+            $consulta->bind_param("s", $dni);
             $consulta->execute();
             $consulta->bind_result($ccodigo_perfil);
             $consulta->store_result();
@@ -87,7 +85,7 @@ class Videosbd {
             exit;
         }  
     }
-    
+        
     /*Saca un array de objetos Video que pertenecen al usuario ordenados alfabeticamente*/
     public static function getVideosAlfabeticamente($codigosPerfil) {
         //Se conecta a la BBDD
@@ -105,22 +103,21 @@ class Videosbd {
                 exit;
             }
             
-            $consulta->bind_param("s", $pCodPerfil);
-            $pCodPerfil = $codPerfil;
+            $consulta->bind_param("s", $codPerfil);
             $consulta->execute();
             $consulta->bind_result($ccodigo, $ctitulo, $ccartel, $cdescargable, $csinopsis, $cvideo);
             $consulta->store_result();
             
-            //Crea los objetos Video y los va metiendo en un array
+            //Crea los objetos Video y los va metiendo en un array. La clave es el codigo del video.
             while ($consulta->fetch()) {
                 $video = new Video($ccodigo, $ctitulo, $ccartel, $cdescargable, $codPerfil, $csinopsis, $cvideo);
-                array_push($videos, $video);
+                $videos[$ccodigo] = $video;
             }
         }
         //Cierra el canal
         $canal->close();
         //Ordena el array alfabeticamente por titulo de objeto video
-        usort($videos, array('Funciones', 'cmp'));
+        //usort($videos, array('Funciones', 'cmp'));
         //Devuelve el array ya ordenado
         return $videos;
     }
@@ -186,6 +183,25 @@ class Videosbd {
         return $videosTematica;
     }
     
+    //Comprueba si el el usuario dado puede ver el video
+    public static function puedeVer($dni, $codigoVideo) {
+        $canal = "";
+        self::conectar($canal);
+        
+        $consulta = $canal ->prepare("SELECT count(*) FROM videos WHERE codigo = ? and codigo_perfil in (select codigo_perfil from perfil_usuario where dni = ?)");
+        $consulta->bind_param("ss", $codigoVideo, $dni);
+        $consulta->execute();
+        $consulta->bind_result($numero);
+        $consulta->store_result();
+        $consulta->fetch();
+        
+        if ($numero == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     //Devuelve todas las tematicas existentes.
     public static function getTematicas(&$canal) {
         //Recoge el nombre y descripcion de cada tematica
@@ -226,9 +242,7 @@ class Videosbd {
         //Ejecuta la consulta
         $sql = "INSERT into VISIONADO (dni, codigo_video, fecha) values (?,?,NOW())";
         $consulta = $canal->prepare($sql);
-        $consulta->bind_param("ss", $cdni, $ccodigo_video);
-        $cdni = $dni;
-        $ccodigo_video = $codigoVideo;
+        $consulta->bind_param("ss", $dni, $codigoVideo);
         $consulta->execute();
         
         //Devuelve si se ha insertado la fila correctamente. 
