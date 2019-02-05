@@ -48,20 +48,21 @@
             <div id="peliculas">
                 {foreach from=$videos item=video}
                 <div class="pelicula">
-                    <form action="EmpezarStream.php" method="post">
+                    <form action="visualizar.php" method="post">
                         <!--Datos de pelicula-->
                         <h3 class="titulo">{$video->titulo}</h3>
                         <input type="image" class="cartel" src="{$video->cartel}" alt="{$video->titulo}" class="empezar-stream" />
+                        {if $video->descargable eq "S"}
+                            <form action="descargar.php" method="post">
+                                <input type="hidden" name="ruta" value="{$video->video}" />
+                                <input type="hidden" name="titulo" value="{$video->titulo}" />
+                                <button class="descargar" name="descargar" class="descargar-video">Descargar</button>
+                            </form>
+                        {/if}
                         <p class="sinopsis">{$video->sinopsis}</p>
                         <input type="hidden" name="ruta" value="{$video->video}" />
                     </form>
-                    {if $video->descargable eq "S"}
-                    <form action="descargar.php" method="post">
-                        <input type="hidden" name="ruta" value="{$video->video}" />
-                        <input type="hidden" name="titulo" value="{$video->titulo}" />
-                        <button class="descargar" name="descargar" class="descargar-video">Descargar</button>
-                    </form>
-                    {/if}
+                    
                 </div>
                 {/foreach}
             </div>
