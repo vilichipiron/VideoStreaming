@@ -12,7 +12,7 @@
     //-----Aqui desencriptaria la ruta-----
         
     //----------Descarga el archivo----------
-    $fichero = CAMINO.$titulo;   
+    $fichero = $titulo;   
     $zip = new ZipArchive();
     $zip->open($fichero, ZIPARCHIVE::CREATE);
         

@@ -1,6 +1,7 @@
 <?php
     require_once("Pantalla.class.php");
     //Recibe el mensaje si lo hay
+    $mensaje = "";
     if (isset($_GET['mensaje'])) {
         $mensaje = trim(strip_tags($_GET['mensaje']));
     }
