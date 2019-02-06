@@ -30,7 +30,9 @@
             
             /*Lo guarda en una variable de sesion para tener 
             una referencia segura (dentro de las limitaciones de usar sesion)
-            con la que comparar*/
+            con la que comparar
+            Faltaria añadir ruta/codigo del video?...
+            */
             $_SESSION['refLink'] = $link_random;
             
             /*Lo encripta y lo devuelve como link del video*/
