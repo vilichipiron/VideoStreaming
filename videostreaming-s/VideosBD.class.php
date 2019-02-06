@@ -85,18 +85,18 @@ class Videosbd {
             exit;
         }  
     }
-        
-    /*Saca un array de objetos Video que pertenecen al usuario ordenados alfabeticamente*/
-    public static function getVideosAlfabeticamente($codigosPerfil) {
+    
+    //Obtiene un array de los titulos de las peliculas ordenado alfabeticamente
+    public static function getTitulosAlfabeticamente($codigosPerfil) {
         //Se conecta a la BBDD
         $canal = "";
         self::conectar($canal);
         
-        require_once("../../www/videostreaming/clases/Video.class.php");
-        $videos = [];
+        $titulosAlfabeticamente = [];
+        
         //Recorre los codigos de perfil y muestra las peliculas que le correspondan a cada uno
         foreach ($codigosPerfil as $codPerfil) {
-            $consulta = $canal->prepare("select codigo, titulo, cartel, descargable, sinopsis, video from videos where codigo_perfil = ?");
+            $consulta = $canal->prepare("select titulo from videos where codigo_perfil = ?");
             
             if (!$consulta) {
                 return null;
@@ -105,21 +105,85 @@ class Videosbd {
             
             $consulta->bind_param("s", $codPerfil);
             $consulta->execute();
-            $consulta->bind_result($ccodigo, $ctitulo, $ccartel, $cdescargable, $csinopsis, $cvideo);
+            $consulta->bind_result($ctitulo);
+            $consulta->store_result();
+            
+            //Va metiendo los titulos en el array
+            while ($consulta->fetch()) {
+                array_push($titulosAlfabeticamente, $ctitulo);
+            }
+        }
+        
+        //Cierra el canal
+        $canal->close();
+        
+        //Ordena el array alfabeticamente
+        sort($titulosAlfabeticamente);
+        
+        return $titulosAlfabeticamente;
+    }
+        
+    /*Saca un array de objetos Video que pertenecen al usuario ordenados alfabeticamente*/
+    public static function getVideosAlfabeticamente($codigosPerfil, $dni) {
+        //Obtiene los titulos ordenados alfabeticamente
+        $titulos = self::getTitulosAlfabeticamente($codigosPerfil);
+        
+        //Se conecta a la BBDD
+        $canal = "";
+        self::conectar($canal);
+        
+        require_once("../../www/videostreaming/clases/Video.class.php");
+        $videosAlfabeticamente = [];
+        
+        //Recorre los titulos y va sacando las propiedades de cada uno.
+        foreach ($titulos as $titulo) {
+            $consulta = $canal->prepare("SELECT codigo, cartel, descargable, sinopsis, video FROM videos WHERE titulo = ?");
+            
+            if (!$consulta) {
+                echo "pepe";
+                return null;
+                exit;
+            }
+
+            $consulta->bind_param("s", $titulo);
+            $consulta->execute();
+            $consulta->bind_result($ccodigo, $ccartel, $cdescargable, $csinopsis, $cvideo);
             $consulta->store_result();
             
             //Crea los objetos Video y los va metiendo en un array. La clave es el codigo del video.
             while ($consulta->fetch()) {
-                $video = new Video($ccodigo, $ctitulo, $ccartel, $cdescargable, $codPerfil, $csinopsis, $cvideo);
-                $videos[$ccodigo] = $video;
+                /*-------COMPRUEBA SI LA PELICULA HA SIDO VISTA-------*/
+                $consulta2 = $canal->prepare("SELECT count(*) FROM visionado where dni = ? and codigo_video = ?");
+                
+                if (!$consulta2) {
+                    echo "adas";
+                    return null;
+                    exit;
+                }
+                
+                $consulta2->bind_param("ss", $dni, $ccodigo);
+                $consulta2->execute();
+                $consulta2->bind_result($cvista);
+                $consulta->store_result();
+                $consulta2->fetch();
+                    
+                if ($cvista == 1) {
+                    $cvista = "S";
+                } else {
+                    $cvista = "N";
+                }
+                
+                //Mete el objeto video en un array
+                $video = new Video($ccodigo, $titulo, $ccartel, $cdescargable, $csinopsis, $cvideo, $cvista);
+                $videosAlfabeticamente[$ccodigo] = $video;
+                
+                $consulta2->close();
             }
         }
         //Cierra el canal
         $canal->close();
-        //Ordena el array alfabeticamente por titulo de objeto video
-        //usort($videos, array('Funciones', 'cmp'));
-        //Devuelve el array ya ordenado
-        return $videos;
+
+        return $videosAlfabeticamente;
     }
     
     //Devuelve un array en el que cada clave es la tematica y su valor es un array de objetos Video
