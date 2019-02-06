@@ -22,5 +22,22 @@
         public static function cmp($a, $b) {
             return strcmp($a->titulo, $b->titulo);
         }
+        
+        public static function crearLink($codigo) {
+            require_once("Cripto.class.php");
+            /*Genera un link aleatorio para el video*/
+            $link_random = bin2hex(openssl_random_pseudo_bytes(32));
+            
+            /*Lo guarda en una variable de sesion para tener 
+            una referencia segura (dentro de las limitaciones de usar sesion)
+            con la que comparar*/
+            $_SESSION['refLink'] = $link_random;
+            
+            /*Lo encripta y lo devuelve como link del video*/
+            $cripto = new Cripto();
+            $link_random = $cripto->encripta($link_random);
+            
+            return $link_random;
+        }
     }
 ?>

@@ -1,6 +1,10 @@
 <?php
 class Videosbd {
-    //Esta clase recoge conexion a BD y funciones estaticas para trabajar con ella.
+    /*
+    * 
+    * Esta clase recoge conexion a BD y funciones estaticas para trabajar con ella.
+    * 
+    */
     const IP = "127.0.0.1";
     const USUARIO = "videos";
     const CLAVE = "videos";
@@ -140,7 +144,6 @@ class Videosbd {
             $consulta = $canal->prepare("SELECT codigo, cartel, descargable, sinopsis, video FROM videos WHERE titulo = ?");
             
             if (!$consulta) {
-                echo "pepe";
                 return null;
                 exit;
             }
@@ -152,11 +155,11 @@ class Videosbd {
             
             //Crea los objetos Video y los va metiendo en un array. La clave es el codigo del video.
             while ($consulta->fetch()) {
+                
                 /*-------COMPRUEBA SI LA PELICULA HA SIDO VISTA-------*/
                 $consulta2 = $canal->prepare("SELECT count(*) FROM visionado where dni = ? and codigo_video = ?");
                 
                 if (!$consulta2) {
-                    echo "adas";
                     return null;
                     exit;
                 }
@@ -167,7 +170,7 @@ class Videosbd {
                 $consulta->store_result();
                 $consulta2->fetch();
                     
-                if ($cvista == 1) {
+                if ($cvista >= 1) {
                     $cvista = "S";
                 } else {
                     $cvista = "N";
