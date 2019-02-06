@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.34-dev-7, created on 2019-02-05 21:15:02
+/* Smarty version 3.1.34-dev-7, created on 2019-02-06 09:59:38
   from 'C:\UwAmp\pantallas\videos\templates\alfabeticamente.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.34-dev-7',
-  'unifunc' => 'content_5c59eec67aba64_59994606',
+  'unifunc' => 'content_5c5aa1fa643277_96533671',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90e0d0d2e594d322b5fb1daff3eca3ac50f5dac4' => 
     array (
       0 => 'C:\\UwAmp\\pantallas\\videos\\templates\\alfabeticamente.tpl',
-      1 => 1549397374,
+      1 => 1549443546,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5c59eec67aba64_59994606 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5c5aa1fa643277_96533671 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html>
     <head>
@@ -87,6 +87,8 @@ foreach ($_from as $_smarty_tpl->tpl_vars['video']->value) {
 " class="empezar-stream" />
                         <input type="hidden" name="codigo" value="<?php echo $_smarty_tpl->tpl_vars['video']->value->codigo;?>
 " />
+                        <p><?php echo $_smarty_tpl->tpl_vars['video']->value->vista;?>
+</p>
                     </form>
                 </div>
                 <?php

@@ -53,6 +53,7 @@
                         <h3 class="titulo">{$video->titulo}</h3>
                         <input type="image" class="cartel" src="{$video->cartel}" alt="{$video->titulo}" class="empezar-stream" />
                         <input type="hidden" name="codigo" value="{$video->codigo}" />
+                        <p>{$video->vista}</p>
                     </form>
                 </div>
                 {/foreach}
