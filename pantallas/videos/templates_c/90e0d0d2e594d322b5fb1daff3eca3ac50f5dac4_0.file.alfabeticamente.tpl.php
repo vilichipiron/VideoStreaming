@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.34-dev-7, created on 2019-02-06 09:59:38
+/* Smarty version 3.1.34-dev-7, created on 2019-02-06 22:10:44
   from 'C:\UwAmp\pantallas\videos\templates\alfabeticamente.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.34-dev-7',
-  'unifunc' => 'content_5c5aa1fa643277_96533671',
+  'unifunc' => 'content_5c5b4d549ff9e5_61508356',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '90e0d0d2e594d322b5fb1daff3eca3ac50f5dac4' => 
     array (
       0 => 'C:\\UwAmp\\pantallas\\videos\\templates\\alfabeticamente.tpl',
-      1 => 1549443546,
+      1 => 1549487442,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5c5aa1fa643277_96533671 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5c5b4d549ff9e5_61508356 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html>
     <head>
@@ -82,13 +82,15 @@ foreach ($_from as $_smarty_tpl->tpl_vars['video']->value) {
                         <!--Datos de pelicula-->
                         <h3 class="titulo"><?php echo $_smarty_tpl->tpl_vars['video']->value->titulo;?>
 </h3>
-                        <input type="image" class="cartel" src="<?php echo $_smarty_tpl->tpl_vars['video']->value->cartel;?>
+                        <input type="image" class="cartel empezar-stream" src="<?php echo $_smarty_tpl->tpl_vars['video']->value->cartel;?>
 " alt="<?php echo $_smarty_tpl->tpl_vars['video']->value->titulo;?>
-" class="empezar-stream" />
+" />
+                        <?php if ($_smarty_tpl->tpl_vars['video']->value->vista == "S") {?>
+                            <p>Vistoooo</p>
+                        <?php }?>
+                        
                         <input type="hidden" name="codigo" value="<?php echo $_smarty_tpl->tpl_vars['video']->value->codigo;?>
 " />
-                        <p><?php echo $_smarty_tpl->tpl_vars['video']->value->vista;?>
-</p>
                     </form>
                 </div>
                 <?php
