@@ -19,7 +19,6 @@ if (isset($_SESSION['videos'])) {
     //Lo serializa y guarda en una variable de sesion para futuras operaciones
     $_SESSION['videos'] = serialize($videosAlfabeticamente);
 }
-var_dump($videosAlfabeticamente);
 /*CONFIGURACION PANTALLA SMARTY*/
 $pantalla = new Pantalla();
 
