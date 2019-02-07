@@ -17,17 +17,22 @@ if (!isset($_POST['codigo'])) {
 
 $codigoVideo = trim(strip_tags($_POST['codigo']));
 
-/*-----RECOGE LA RUTA DEL VIDEO QUE SE QUIERE VER-----*/
+/*-----RECOGE DE LA SESIÓN EL VIDEO QUE SE QUIERE VER-----*/
 $videos = unserialize($_SESSION['videos']);
 
 $videoElegido = $videos[$codigoVideo];
-
-$_SESSION['rutaVideo'] = $videoElegido->video;
 
     
 /*-----GESTION DE USUARIO------*/
 $usuario = unserialize($_SESSION['usuario']);
 
+/*-----SI EL USUARIO NO PUEDE VER LA PELICULA, SE SALE------*/
+if (!Videosbd::puedeVer($usuario->dni, $codigoVideo)) {
+    session_destroy();
+    unset($_SESSION);
+    header("Location: index.php");
+    exit;
+}
 
 /*-----MARCA LA PELICULA VISTA POR EL USUARIO EN LA BBDD Y EN EL ARRAY-----*/
 Videosbd::insertVisionada($usuario->dni, $codigoVideo);
