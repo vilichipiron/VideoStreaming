@@ -26,20 +26,20 @@
         public static function crearLink($codigo) {
             require_once("Cripto.class.php");
             /*Genera un link aleatorio para el video*/
-            $link_random = bin2hex(openssl_random_pseudo_bytes(32));
+            $refLink = bin2hex(openssl_random_pseudo_bytes(32));
             
-            /*Lo guarda en una variable de sesion para tener 
-            una referencia segura (dentro de las limitaciones de usar sesion)
-            con la que comparar
-            Faltaria añadir ruta/codigo del video?...
-            */
-            $_SESSION['refLink'] = $link_random;
+            /*Crea un array con el codigo del video y la clave*/ 
+                
+            /*Lo guarda en una variable de sesion para tener una 
+            referencia segura (dentro de las limitaciones de usar 
+            sesion) con la que comparar */
+            $_SESSION['refLink'] = $refLink;
             
-            /*Lo encripta y lo devuelve como link del video*/
+            /*Lo convierte en string, lo codifica y lo devuelve como link del video*/
             $cripto = new Cripto();
-            $link_random = $cripto->encripta($link_random);
+            $link = $cripto->encripta(json_encode($datos));
             
-            return $link_random;
+            return $link;
         }
     }
 ?>
