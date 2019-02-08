@@ -4,7 +4,7 @@ class Cripto {
     
     public function __construct() {
         //Genera una clave
-        $this->clave = "ms4enZmsLSEAahRl";  
+        $this->clave = bin2hex(openssl_random_pseudo_bytes(16));
     }
     
 	public function encripta($mensaje) {
