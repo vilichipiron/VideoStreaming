@@ -25,9 +25,5 @@
                 return null;
             }
         }  
-        
-        public function setVistaSi() {
-            $this->vista = "S";
-        }
     }
 ?>

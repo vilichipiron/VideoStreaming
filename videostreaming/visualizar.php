@@ -17,14 +17,13 @@ if (!isset($_POST['codigo'])) {
 
 $codigoVideo = trim(strip_tags($_POST['codigo']));
 
-/*-----RECOGE DE LA SESIÓN EL VIDEO QUE SE QUIERE VER-----*/
-$videos = unserialize($_SESSION['videos']);
-
-$videoElegido = $videos[$codigoVideo];
-
-    
 /*-----GESTION DE USUARIO------*/
 $usuario = unserialize($_SESSION['usuario']);
+
+/*-----RECOGE EL OBJETO VIDEO QUE SE QUIERE VER-----*/
+$videos = Videosbd::getVideosAlfabeticamente($usuario->codigosPerfiles, $usuario->dni);
+
+$videoElegido = $videos[$codigoVideo];
 
 /*-----SI EL USUARIO NO PUEDE VER LA PELICULA, SE SALE------*/
 if (!Videosbd::puedeVer($usuario->dni, $codigoVideo)) {
@@ -34,14 +33,8 @@ if (!Videosbd::puedeVer($usuario->dni, $codigoVideo)) {
     exit;
 }
 
-/*-----MARCA LA PELICULA VISTA POR EL USUARIO EN LA BBDD Y EN EL ARRAY-----*/
+/*-----MARCA LA PELICULA VISTA POR EL USUARIO EN LA BBDD----*/
 Videosbd::insertVisionada($usuario->dni, $codigoVideo);
-
-$videoElegido->setVistaSi();
-$videos[$codigoVideo] = $videoElegido;
-
-$_SESSION['videos'] = serialize($videos);
-
 
 /*-----GENERA UN LINK ALEATORIO------*/
 $link = Funciones::crearLink($codigoVideo);

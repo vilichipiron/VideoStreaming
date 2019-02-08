@@ -24,8 +24,8 @@ if (!Videosbd::puedeVer($usuario->dni, $codigoVideo)) {
     exit;
 }
 
-//Deserealiza los videos que puede ver el usuario
-$videos = unserialize($_SESSION['videos']);
+//Recoge los videos que puede ver el usuario
+$videos = Videosbd::getVideosAlfabeticamente($usuario->codigosPerfiles, $usuario->dni);
 
 //Recoge el objeto que tiene como clave el codigo del video
 $videoElegido = $videos[$codigoVideo];

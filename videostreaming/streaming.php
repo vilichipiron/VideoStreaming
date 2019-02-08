@@ -29,7 +29,7 @@ if (strcmp($claveRandom, $refLink) !== 0) {
 } 
 
 /*------RECOGE LA RUTA DEL VIDEO QUE SE QUIERE VER------*/
-$videos = unserialize($_SESSION['videos']);
+$videos = Videosbd::getVideosAlfabeticamente($usuario->codigosPerfiles, $usuario->dni);
 $rutaVideo = $videos[$datos->codigoVideo]->video;
 
 

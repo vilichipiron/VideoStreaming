@@ -9,16 +9,8 @@ include("../../seguridad/videostreaming-s/inicioPagina.php");
 //Obtiene el objeto usuario
 $usuario = unserialize($_SESSION['usuario']);
 
-/*Comprueba si tiene los videos en una variable 
-de sesion, sino los obtiene de la BD. */
-if (isset($_SESSION['videos'])) {
-    $videosAlfabeticamente = unserialize($_SESSION['videos']);
-} else {
-    $videosAlfabeticamente = Videosbd::getVideosAlfabeticamente($usuario->codigosPerfiles, $usuario->dni);
-    
-    //Lo serializa y guarda en una variable de sesion para futuras operaciones
-    $_SESSION['videos'] = serialize($videosAlfabeticamente);
-}
+/*Recoge los videos ordenados alfabeticamente*/
+$videosAlfabeticamente = Videosbd::getVideosAlfabeticamente($usuario->codigosPerfiles, $usuario->dni);
 /*CONFIGURACION PANTALLA SMARTY*/
 $pantalla = new Pantalla();
 
